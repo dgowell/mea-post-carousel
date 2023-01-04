@@ -1,0 +1,133 @@
+:root {
+    --dark-green: #0E1900;
+    --light-green: #B6E25A;
+    --green: #7FB736;
+    --white: #FFFFFF;
+    --grey: #F1F1F1;
+    --rounded-corner: 200px;
+}
+
+.mea-post-categories {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mea-post-category {
+    color: var(--white);
+    font-size: 1rem;
+    background-color: var(--dark-green);
+    padding: 0.5rem 0.8rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.mea-post-excerpt {
+    margin-top: 2rem;
+    color: var(--dark-green);
+    font-size: 1rem;
+    padding-right: 25%;
+}
+
+.mea-post-img {
+    border-radius: 0 100% 100% 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-right: 3.44vw;
+    margin-bottom: 2rem;
+}
+
+.mea-post-img img {
+    min-width: 100%;
+    min-height: 100%;
+    height: 344px;
+    object-fit: cover;
+}
+
+.slick-dots {
+    position: relative;
+    padding-left: 0 !important;
+    width: 74vw;
+    margin-left: -7.5vw;
+    z-index: -9;
+    bottom: 0;
+}
+
+@media only screen and (max-width: 600px) {
+    .slick-dots {
+        bottom: 5px;
+    }
+}
+
+.slick-dots li {
+    width: 10%;
+    border-radius: 0;
+    color: #d4d4d4;
+    background-color: #d4d4d4;
+    margin: 0;
+    height: 3px;
+    transition: color .35s ease-in-out;
+}
+
+.slick-dots .slick-active {
+    background-color: var(--dark-green);
+    border-radius: 14px;
+    height: 4px;
+}
+
+.slick-dots li button::before {
+    content: none;
+}
+
+.carousel-controls {
+    display: flex;
+    align-items: baseline;
+    padding-right: 12.5vw;
+    margin-top: 2rem;
+}
+
+.carousel-controls button {
+    background-color: var(--grey);
+    color: var(--green);
+    border: solid 2px var(--green);
+    border-radius: 47px;
+    height: 47px;
+    width: 47px;
+    padding: 7px;
+    text-decoration: none;
+    line-height: 47px;
+}
+
+@media only screen and (max-width: 600px) {
+    .carousel-controls button {
+        height: 36px;
+        width: 40px;
+        line-height: 36px;
+        padding: 2px;
+    }
+
+    .carousel-controls {
+        padding-right: 24px;
+    }
+}
+
+.carousel-controls button:hover {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin-top: -1px;
+}
+
+box-icon {
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
+    font-size: 1rem;
+    color: var(--green);
+}
+
+.carousel-controls .prev {
+    margin-right: 1rem;
+}

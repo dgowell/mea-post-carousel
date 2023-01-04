@@ -27,23 +27,101 @@ function create_block_mea_post_carousel_block_init() {
 }
 add_action( 'init', 'create_block_mea_post_carousel_block_init' );
 
-function gutenberg_examples_dynamic_render_callback( $block_attributes, $content ) {
+
+function mea_post_carousel_plugin_render_mea_content(  $block_attributes, $content, $block_instance ) {
+
     $recent_posts = wp_get_recent_posts( array(
-        'numberposts' => 1,
+        'numberposts' => 10,
         'post_status' => 'publish',
     ) );
     if ( count( $recent_posts ) === 0 ) {
         return 'No posts';
     }
-    $post = $recent_posts[ 0 ];
-    $post_id = $post['ID'];
-    return sprintf(
-        '<a class="wp-block-my-plugin-latest-post" href="%1$s">%2$s</a>',
-        esc_url( get_permalink( $post_id ) ),
-        esc_html( get_the_title( $post_id ) )
-    );
+
+    $output = '<div class="mea-carousel">';
+
+        foreach ( $recent_posts as $p ){
+            $post_id = $p['ID'];
+            $image = has_post_thumbnail( $post_id ) ? get_the_post_thumbnail( $post_id, array(350,375) ) : '';
+            $excerpt = '';
+            if (has_excerpt( $post_id )) {
+                $excerpt = wp_strip_all_tags(get_the_excerpt( $post_id ));
+            }
+            $categories = get_the_category( $post_id );
+
+
+
+            //begin the structure
+
+            $output .= '<div class="mea-carousel-post">';
+
+                $output .= '<div class="mea-post-img">';
+                        $output .= $image;
+                $output .= '</div>';
+
+                $output .= '<div class="mea-post-categories">';
+                        foreach ( $categories as $cat ) {
+                            $output .= '<span class="mea-post-category">' . $cat->name . '</span>';
+                        }
+                $output .= '</div>';
+
+                $output .= '<a href="' . esc_url( get_permalink( $post_id ) ) . '">';
+                    $output .= '<div class="mea-post-excerpt">' . $excerpt . '</div>';
+                $output .='</a>';
+
+            $output .= '</div>';
+        }
+
+
+
+    $output .= '</div>'; //close the carousel
+
+    return $output ?? '<strong>Sorry. No posts matching your criteria!</strong>';
+
 }
 
-function mea_post_carousel_plugin_render_mea_content() {
-    return 'hello world';
+add_action( 'wp_enqueue_scripts', 'mea_custom_block' );
+function mea_custom_block(){
+    // wp_enqueue_script() with your block JS goes first...
+
+    // block css
+    wp_enqueue_style(
+        'mea-slick-css',
+        plugins_url( '/src/slick/slick.css', __FILE__ ),
+        array( 'wp-edit-blocks' )
+    );
+
+    // block css
+    wp_enqueue_style(
+        'mea-slick-theme-css',
+        plugins_url( '/src/slick/slick-theme.css', __FILE__ ),
+        array( 'wp-edit-blocks' )
+    );
+
+        // block css
+    wp_enqueue_style(
+        'mea-post-carousel-css',
+        plugins_url( '/src/mea-post-carousel.css', __FILE__ ),
+        array( 'wp-edit-blocks' )
+    );
+
+    wp_enqueue_script(
+        'mea-slick-js',
+        plugins_url( '/src/slick/slick.js', __FILE__ ),
+        array('jquery'), '1.0', true
+    );
+
+    wp_enqueue_script(
+        'mea-post-carousel-js',
+        plugins_url( '/src/mea-post-carousel.js', __FILE__ ),
+        array('jquery','mea-slick-js'), '1.0', true
+    );
+
+    wp_enqueue_script(
+        'boxicons-js',
+        'https://unpkg.com/boxicons@2.1.4/dist/boxicons.js',
+        null, '1.0', true
+    );
+
+
 }

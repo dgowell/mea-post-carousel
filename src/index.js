@@ -13,6 +13,8 @@ import { registerBlockType } from '@wordpress/blocks';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './style.scss';
+import "./slick/slick.css";
+import "./slick/slick-theme.css";
 
 /**
  * Internal dependencies
@@ -21,19 +23,20 @@ import Edit from './edit';
 import save from './save';
 import metadata from './block.json';
 
+
 /**
  * Every block starts by registering a new block type definition.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( metadata.name, {
-	/**
-	 * @see ./edit.js
-	 */
-	edit: Edit,
+    /**
+     * @see ./edit.js
+     */
+    edit: Edit,
 
-	/**
-	 * @see ./save.js
-	 */
-	save,
+    /**
+     * @see ./save.js
+     */
+    save,
 } );

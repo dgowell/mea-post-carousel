@@ -31,6 +31,7 @@ import { useSelect } from '@wordpress/data';
  * @return {WPElement} Element to render.
  */
 import { RawHTML } from '@wordpress/element';
+import Slider from 'react-slick';
 
 
 export default function Edit() {
@@ -40,22 +41,17 @@ export default function Edit() {
         return select('core').getEntityRecords('postType', 'post');
     }, []);
 
-    // Set up the isLoading.
-    const isLoading = useSelect((select) => {
-        return select('core/data').isResolving('core', 'getEntityRecords', [
-            'postType', 'post'
-        ]);
-    });
-
-
-    // Show the loading state if we're still waiting.
-    if (isLoading) {
-        return <h3>Loading...</h3>;
-    }
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1
+    };
 
     return (
         <div {...useBlockProps()}>
-            <div class="post-carousel" data-slick='{"slidesToShow": 2, "slidesToScroll": 2}'>
+            <Slider {...settings}>
                 {posts && posts.map((post) => {
                     return (
                         <div key={post.id}>
@@ -63,7 +59,7 @@ export default function Edit() {
                                 <img src={post.featured_image_src} alt={post.title.raw} />
                                 <div class="categories">{post.categories && post.categories.map((category) => {
                                     return (
-                                    <p>{category}</p>
+                                        <p>{category}</p>
                                     )
                                 })}</div>
                                 {post.excerpt.rendered ? (
@@ -77,7 +73,7 @@ export default function Edit() {
                         </div>
                     )
                 })}
-            </div>
+            </Slider>
         </div>
     );
 }
